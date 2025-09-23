@@ -10,10 +10,10 @@ import { useUserStoreHook } from '@/store/modules/user'
 eventEmitter.on(TOKEN_AUTH_FAIL, (data: any) => {
   // ElMessage.closeAll()
   // showMessage(data)
-  console.log('TOKEN_AUTH_FAIL', data)
+
+  console.log('TOKEN_AUTH_FAIL-----', data)
   const userStore = useUserStoreHook()
   userStore.resetToken()
-  userStore.setLoginModalState(true)
 })
 
 // http error

@@ -5,7 +5,6 @@ import 'nprogress/nprogress.css'
 
 import type { EnhancedRouteLocation } from './types'
 import { kkAuth } from '@/01-kk-system/allUtils/kkAuth'
-import { useUserStoreHook } from '@/store/modules/user'
 import { useRouteCacheStoreHook } from '@/store/modules/routeCache'
 
 NProgress.configure({ showSpinner: true, parent: '#app' })
@@ -14,9 +13,12 @@ const Layout = () => import('@/layout/index.vue')
 
 const routeCacheStore = useRouteCacheStoreHook()
 
-const userStore = useUserStoreHook()
-
 const routes: RouteRecordRaw[] = [
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/pages/login/index.vue'),
+  },
   {
     path: '/',
     name: 'root',
@@ -267,9 +269,8 @@ router.beforeEach((to: EnhancedRouteLocation, _, next) => {
   // token auth
   const token = kkAuth.getToken()
   const userInfo = kkAuth.getUserInfo()
-  if (to.meta.needLogin && !token && !userInfo.userID) {
-    next('/')
-    userStore.setLoginModalState(true)
+  if ((!token || !userInfo.userID) && to?.path !== '/login') {
+    next('/login')
   }
   else {
     next()

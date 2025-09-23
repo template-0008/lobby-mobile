@@ -19,7 +19,7 @@ const emit = defineEmits(['onCancel', 'onConfirm'])
 </script>
 
 <template>
-  <van-dialog v-bind="$attrs" teleport="body">
+  <van-dialog v-bind="$attrs" teleport="body" width="80%">
     <div class="absolute right-3 top-3" @click="emit('onCancel')">
       <van-icon size="20" name="close" />
     </div>
@@ -35,8 +35,8 @@ const emit = defineEmits(['onCancel', 'onConfirm'])
       <slot name="default" />
     </div>
     <div v-else class="flex flex-col items-center px-6 pb-2 pt-5">
-      <div class="h-144px w-144px flex-center">
-        <IconConfirm />
+      <div class="flex-center">
+        <img class="h-80px w-auto" src="@/assets/images/new/alert-icon.png" alt="">
       </div>
       <p v-if="desc" class="pt-4 text-center text-sm color-[var(--normal-text-color)]">
         {{ desc }}
@@ -50,7 +50,7 @@ const emit = defineEmits(['onCancel', 'onConfirm'])
         <div class="cancel-btn kk-d-btn flex-center" @click="emit('onCancel')">
           {{ $t('system.i18nSystem.opration.cancel') }}
         </div>
-        <div class="kk-d-btn ok-btn flex-center" @click="emit('onConfirm')">
+        <div class="kk-d-btn ok-btn flex-center" size="mini" @click="emit('onConfirm')">
           {{ $t('system.i18nSystem.opration.confirm2') }}
         </div>
       </div>
@@ -60,14 +60,15 @@ const emit = defineEmits(['onCancel', 'onConfirm'])
 
 <style lang="less" scoped>
 .kk-d-btn {
-  width: 125px;
-  height: 44px;
-  border-radius: 44px;
+  width: 110px;
+  height: 36px;
+  border-radius: 32px;
+  font-size: 14px;
 }
 
 .ok-btn {
   color: #fff;
-  background-image: linear-gradient(180deg, #8bbcff, #5387fd);
+  background-image: linear-gradient(180deg, #ee6261, #ee6261);
 }
 
 .cancel-btn {

@@ -76,7 +76,6 @@ function logout() {
   })
   userStore.logout().then(() => {
     userStore.resetToken()
-    router.replace({ path: '/' })
     showConfirm.value = false
     toggleSideBar()
   }).finally(() => toast.close())

@@ -189,6 +189,68 @@ onBeforeMount(() => {
                 }}
               </van-button>
             </li>
+
+            <li
+              class="safety-login border-b-3px border-b-[#8b85fa]"
+            >
+              <div class="txt">
+                <span class="title">{{ $t("web.i18nFront.label.loginPwd") }}</span>
+                <span class="content">
+                  {{ $t("web.i18nFront.hint.loginPwdDesc") }}
+                </span>
+              </div>
+              <van-button
+                class="btn"
+                size="small"
+                @click="showLoginPwd = true"
+              >
+                {{ $t("system.i18nSystem.opration.edit") }}
+              </van-button>
+            </li>
+            <li class="safety-login border-b-3px border-b-[#d58bf4]">
+              <div class="txt">
+                <div class="title items-center gap-1 !flex">
+                  <span>{{ $t("web.i18nFront.label.moneyPwd") }}</span>
+                </div>
+                <span class="content">
+                  {{ $t("web.i18nFront.hint.moneyPwdDesc") }}
+                </span>
+              </div>
+              <van-button
+                class="text-center btn"
+                size="small"
+                :loading="pwdLoading"
+                @click="onShowPwdModal"
+              >
+                {{
+                  hasFundPwd
+                    ? $t("system.i18nSystem.label.edit")
+                    : $t("system.i18nSystem.label.unSet")
+                }}
+              </van-button>
+            </li>
+            <li class="safety-login border-b-3px border-b-[#d58bf4]">
+              <div class="txt">
+                <div class="title items-center gap-1 !flex">
+                  <span>{{ $t("web.i18nFront.label.realname") }}</span>
+                </div>
+                <span class="content">
+                  {{ $t("web.i18nFront.hint.realNameHint") }}
+                </span>
+              </div>
+              <van-button
+                class="text-center btn"
+                size="small"
+                :loading="realNameLoading"
+                @click="onShowRealNameModal"
+              >
+                {{
+                  realName
+                    ? $t("system.i18nSystem.label.edit")
+                    : $t("system.i18nSystem.label.unSet")
+                }}
+              </van-button>
+            </li>
           </ul>
         </div>
       </div>

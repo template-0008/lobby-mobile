@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useRouter } from 'vue-router'
 import { useRouteCacheStoreHook } from './routeCache'
 import { store } from '@/store'
 import { contractHttp, userHttp } from '@/01-kk-system/allHttp/userHall/user'
@@ -30,6 +31,8 @@ const useUserStore = defineStore('user', () => {
   const avalableWallets = ref<Record<string, any>[]>([])
   const avalableFlatWallets = ref<Record<string, any>[]>([])
   const myContractSalary = ref<Record<string, any>[]>([])
+
+  const router = useRouter()
 
   function setLoginModalState(state: boolean) {
     showLogin.value = state
@@ -116,11 +119,17 @@ const useUserStore = defineStore('user', () => {
   }
 
   const resetToken = () => {
-    kkAuth.clearToken()
-    kkAuth.clearUserInfo()
-    token.value = ''
-    userInfo.value = {}
-    routeCacheStore.clearRouteCache()
+    try {
+      kkAuth.clearToken()
+      kkAuth.clearUserInfo()
+      token.value = ''
+      userInfo.value = {}
+      routeCacheStore.clearRouteCache()
+      router.replace('/login')
+    }
+    catch (error) {
+      console.log('error-----', error)
+    }
   }
 
   // 获取钱包和币种列表
