@@ -83,6 +83,19 @@ async function init() {
 // for tabbar
 const currRoute = useRoute()
 const showTabbar = computed(() => currRoute.meta.showTabbar)
+const showNotice = ref(false)
+
+function handlePopState() {
+  const localState = sessionStorage.getItem('noticeState')
+  if (!localState) {
+    showNotice.value = true
+  }
+}
+
+function handleConfirm() {
+  showNotice.value = false
+  sessionStorage.setItem('noticeState', '1')
+}
 
 async function getIosPwaThumb() {
   appStore.getAppLogoByCode(PlatformImageCode.PWA_LOGO).then((pwaLogo) => {
@@ -99,6 +112,7 @@ async function getIosPwaThumb() {
 
 onBeforeMount(() => {
   init()
+  handlePopState()
 })
 onMounted(() => {
   toggleDark(false)
@@ -124,5 +138,6 @@ onMounted(() => {
     <Login v-model="show" />
     <PwaModal />
     <IframePage />
+    <NoticeDialog v-model:show="showNotice" theme="round-button" @confirm="handleConfirm" />
   </VanConfigProvider>
 </template>

@@ -3,18 +3,12 @@ defineOptions({
   name: 'AboutUs',
 })
 
-const router = useRouter()
-
 const activeName = ref('aboutUs')
 </script>
 
 <template>
   <div class="h-full flex flex-col overflow-hidden">
-    <van-nav-bar
-      :title="$t('web.i18nFront.label.aboutUs')"
-      left-arrow
-      @click-left="router.back"
-    />
+    <TopNav :title="$t('web.i18nFront.label.aboutUs')" />
     <van-tabs v-model:active="activeName" class="top-tabs flex-1 overflow-hidden">
       <van-tab :title="$t('web.i18nFront.label.aboutUs')" name="aboutUs">
         <div class="content">

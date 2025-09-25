@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Header from './components/Header/index.vue'
 import ToolView from './components/ToolView/index.vue'
-import { noticeHttp } from '@/01-kk-system/allHttp/userHall/notice'
 import useUserStore from '@/store/modules/user'
 import { useGameStore } from '@/store/modules/game'
 import { translateTextBy } from '@/utils/i18n'
@@ -10,6 +9,7 @@ import type { IObject } from '@/01-kk-system/allHttp/types/common'
 import useIframeOpenFunc from '@/04-kk-component-mobile/hooks/useIframeOpenFunc'
 import SubgameCard from '@/pages/subgameLobby/components/SubgameCard.vue'
 import useAppStore from '@/store/modules/app'
+import { useGameCollectionStore } from '@/store/modules/gameCollection'
 
 defineOptions({
   name: 'Home',
@@ -22,15 +22,17 @@ const router = useRouter()
 const userStore = useUserStore()
 const gameStore = useGameStore()
 const appStore = useAppStore()
-const { onClickOuterGame, onClickOuterSubGame } = useIframeOpenFunc()
+const gameCollectionStore = useGameCollectionStore()
+const { onClickOuterGame, onClickOuterSubGame, onClickClassiGame } = useIframeOpenFunc()
 
-const noticeTitleList = ref<string[]>([])
 const lotteryList = ref<Record<string, any>[]>([])
 const activeMenu = ref<IObject>({
   name: 'slot',
 })
 const currentList = ref([])
 const gameListDomStatus = ref(true)
+
+const collectGameList = computed(() => gameCollectionStore.favoriteGames ?? [])
 
 const Menus = computed(() => {
   const groupList = gameStore.allGroups || []
@@ -46,10 +48,9 @@ const Menus = computed(() => {
       image: localImg('images/home/icon-lottery.png'),
       showMore: true,
       type: 'lottery',
-      data: lotteryList.value,
+      data: collectGameList.value,
       click: (game?: IObject) => {
-        gameStore.currentEntrance = game
-        router.push({ path: '/game-lobby' })
+        onClickClassiGame(game)
       },
     },
     {
@@ -62,10 +63,9 @@ const Menus = computed(() => {
       image: localImg('images/home/icon_egame.png'),
       type: 'outerGame',
       nameKey: 'outerGamerName',
-      data: gameStore.allSubGameEntrance?.egame || [],
+      data: gameStore.eGameList || [],
       click: (game: IObject) => {
-        gameStore.currentEntrance = game
-        router.push({ path: '/subgame-lobby', query: { outerGamerID: game.outerGamerID } })
+        onClickClassiGame(game)
       },
     },
     {
@@ -78,7 +78,7 @@ const Menus = computed(() => {
       image: localImg('images/home/icon_fish.png'),
       type: 'outerGame',
       nameKey: 'outerGamerName',
-      data: gameStore.allSubGameEntrance?.fish || [],
+      data: gameStore.fishGameList || [],
       click: (game: IObject) => {
         gameStore.currentEntrance = game
         router.push({ path: '/subgame-lobby', query: { outerGamerID: game.outerGamerID } })
@@ -136,18 +136,6 @@ watch(() => activeMenu.value.name, (oldVal, newVal) => {
   }
 })
 
-async function getNoticeList() {
-  const res = await noticeHttp.getAllList('3').catch(() => null)
-  const { code, data } = res || {}
-  if (code === '0') {
-    const list = [];
-    (data || []).forEach((item) => {
-      list.push(item.title)
-    })
-    noticeTitleList.value = list
-  }
-}
-
 async function getFullGames() {
   const list = (await gameStore.getFullSeries()) as unknown as Record<
     string,
@@ -188,7 +176,6 @@ function onClickMenu(item: any) {
 }
 
 async function init() {
-  getNoticeList()
   getFullGames()
   userStore.getUserBanlance()
   await Promise.allSettled([gameStore.getAvailableOuterGames(), gameStore.getAvailableOuterSubGamesEntry()])
@@ -204,6 +191,10 @@ function onClickGameCard(game: IObject) {
   }
 }
 
+function onClickAddLottery() {
+  router.push({ path: '/game-edit' })
+}
+
 function initBanner() {
   appStore.getAppBanners().then((res) => {
     banners.value = res
@@ -213,6 +204,7 @@ function initBanner() {
 onBeforeMount(() => {
   initBanner()
   init()
+  gameCollectionStore.getLocalCollections()
 })
 </script>
 
@@ -231,24 +223,9 @@ onBeforeMount(() => {
           </van-swipe-item>
         </van-swipe>
       </div>
-      <!-- <div id="kk-tab-bar" class="w-full">
-        <van-notice-bar :color="noticeColor.color" :background="noticeColor.background">
-          <template #left-icon>
-            <div class="w-10 flex-center">
-              <van-icon color="var(--primary-color)" size="20" name="volume-o" />
-            </div>
-          </template>
-          <div v-if="noticeTitleList.length > 0" class="flex items-center gap-5">
-            <span
-              v-for="(text, i) in noticeTitleList" :key="i" class="pr-20"
-              :style="{ paddingRight: i === noticeTitleList.length - 1 ? '0' : '' }"
-            >{{ text }}</span>
-          </div>
-        </van-notice-bar>
-      </div> -->
       <ToolView />
     </div>
-    <div class="mx-2 mt-2 flex rounded-2 bg-white">
+    <div class="mx-2 mb-12 mt-1 flex rounded-2 bg-white">
       <div class="h-full overflow-auto px-[3.589744vw] pt-1 text-[3.076923vw]">
         <div
           v-for="(menu, index) in Menus"
@@ -262,6 +239,16 @@ onBeforeMount(() => {
         <div class="h-6" />
       </div>
       <div class="h-full flex-1 overflow-auto">
+        <div v-if="activeMenu.type === 'lottery'" class="h-8 flex items-center justify-between border-b border-#dedbd7 border-b-solid px-3 text-#5f0f0e">
+          <div class="flex items-center gap-1 text-12px font-600">
+            <img class="h-4 w-4" src="@/assets/images/new/lottery-home.png" alt="">
+            <span>{{ $t('web.i18nFront.label.lotteryLobby') }}</span>
+          </div>
+          <div class="flex items-center gap-1 text-12px font-600" @click="onClickAddLottery">
+            <van-icon size="17" name="add" />
+            <span>{{ $t('web.i18nFront.label.addLottery') }}</span>
+          </div>
+        </div>
         <div v-if="gameListDomStatus && currentList.length" class="game-list init-animation">
           <template v-if="activeMenu.isGrooup">
             <div class="grid grid-cols-3 h-full w-full flex-wrap color-black">
@@ -269,60 +256,34 @@ onBeforeMount(() => {
             </div>
           </template>
           <template v-else-if="activeMenu.type === 'lottery'">
-            <div>
-              <div class="h-8 flex items-center justify-between border-b border-#dedbd7 border-b-solid px-3 text-#5f0f0e">
-                <div class="flex items-center gap-1 text-12px font-600">
-                  <img class="h-4 w-4" src="@/assets/images/new/lottery-home.png" alt="">
-                  <span>Lottery</span>
-                </div>
-                <div class="flex items-center gap-1 text-12px font-600">
-                  <van-icon name="add" />
-                  <span>Lottery</span>
-                </div>
-              </div>
+            <div class="grid grid-cols-2 mt-3 gap-3 px-2">
               <div
-                v-for="(game, idx) in currentList" :key="`${idx}game`" class="game-list-card"
+                v-for="(game, idx) in currentList" :key="`${idx}game`" class="flex-center rounded-1 bg-#f7efee p-2 text-#351900"
                 @click="onClickGameCard(game)"
               >
-                <img class="card-text-bg" :src="activeMenu.cardBg" alt="">
-                <div
-                  class="game-card-body"
-                  :style="{ backgroundImage: `url(${getGameImg(game) || activeMenu.cardImg})` }"
-                >
-                  <div class="game-info">
-                    <div class="title">
-                      {{ game.outerGamerName || game.name }}
-                    </div>
-                    <div class="sub-title">
-                      {{ activeMenu.subTitle }}
-                    </div>
-                  </div>
-                </div>
+                <p class="text-13px">
+                  {{ game.lottoName }}
+                </p>
               </div>
             </div>
           </template>
+          <!-- outer game -->
           <template v-else>
-            <div
-              v-for="(game, idx) in currentList" :key="`${idx}game`" class="game-list-card"
-              @click="onClickGameCard(game)"
-            >
-              <img class="card-text-bg" :src="activeMenu.cardBg" alt="">
+            <div class="grid grid-cols-2 mt-3 gap-3 px-2">
               <div
-                class="game-card-body"
-                :style="{ backgroundImage: `url(${getGameImg(game) || activeMenu.cardImg})` }"
+                v-for="(game, idx) in currentList" :key="`${idx}game`"
+                class="flex items-center gap-1 overflow-hidden rounded-1 bg-#f7efee p-1 text-#351900"
+                @click="onClickOuterGame(game)"
               >
-                <div class="game-info">
-                  <div class="title">
-                    {{ game.outerGamerName || game.name }}
-                  </div>
-                  <div class="sub-title">
-                    {{ activeMenu.subTitle }}
-                  </div>
+                <div class="h-9 w9 rounded-1 bg-white">
+                  <img class="h-full w-full object-cover" :src="getGameImg(game) || activeMenu.cardImg" alt="">
                 </div>
+                <p class="text-12px">
+                  {{ game.outerGamerName || game.name }}
+                </p>
               </div>
             </div>
           </template>
-          <div class="h-6" />
         </div>
         <van-empty v-else image-size="100" :description="$t('web.i18nFront.hint.noData')" />
       </div>

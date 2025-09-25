@@ -1,28 +1,38 @@
 <script setup lang="ts">
-import TabItem from '../TabItem/index.vue'
 import MyAvatar from '../MyAvatar/index.vue'
-import { useDesignSetting } from '@/hooks/useDesignSetting'
-import { useChatStore } from '@/store/modules/chat'
 import useUserStore from '@/store/modules/user'
+import useIframeOpenFunc from '@/04-kk-component-mobile/hooks/useIframeOpenFunc'
 
 defineOptions({
   name: 'MineHeaderCp',
 })
 
-const emit = defineEmits<{ openWallet: [type: 'deposit' | 'withdraw'] }>()
-
 const router = useRouter()
 const userStore = useUserStore()
-const chatStore = useChatStore()
+const { t } = useI18n()
 
-const { isDark } = useDesignSetting()
 const refreshLoading = ref(false)
+const isHidden = ref(true)
+
+const userTypes = {
+  1: t('web.i18nFront.label.formal'),
+  2: t('web.i18nFront.label.test'),
+}
+
+const userTypeTxt = computed(() => {
+  return userTypes[userStore?.userInfo?.userType] || ''
+})
 
 const balance = computed(() => {
   const money = userStore?.balanceInfo?.balance
     ? userStore.balanceInfo.balance
     : '0.00'
-  return money || '0.00'
+  return isHidden.value ? '****' : money || '0.00'
+})
+
+const moneySymbol = computed(() => {
+  const symbol = userStore?.currentWalletInfo?.symbol || ''
+  return symbol || '¥'
 })
 
 async function onRefresh() {
@@ -31,58 +41,72 @@ async function onRefresh() {
   refreshLoading.value = false
 }
 
-function onLogin() {
-  userStore.setLoginModalState(true)
+const { goToPayment } = useIframeOpenFunc()
+
+function openPayCenter(type: 'deposit' | 'withdraw') {
+  goToPayment(type)
 }
 
-function openService() {
-  chatStore.openChat()
+function goTransfor() {
+  router.push('/transfor')
 }
 </script>
 
 <template>
-  <div class="header w-full">
-    <div class="flex items-center justify-between px-4 pt-5 text-14px">
-      <h3>{{ $t('web.i18nFront.label.mineC') }}</h3>
-      <div class="flex gap-4">
-        <div class="icon-email h-30px w-30px flex-center rounded-full bg-#fff">
-          <IconEmail :is-dark="isDark" size="18px" />
-        </div>
-        <div class="icon-email h-30px w-30px flex-center rounded-full bg-#fff" @click="openService">
-          <img v-if="!isDark" class="w-18px object-contain" src="@/assets/images/icons/icon-kh.png" alt="">
-          <img v-else class="w-18px object-contain" src="@/assets/images/icons/icon-kh2.png" alt="">
-        </div>
+  <div class="w-full">
+    <TopNav :title="$t('web.i18nFront.label.accountM')" />
+    <div class="mx-2 mt-2 flex items-center gap-2 bg-#ffffff p-3 text-14px">
+      <MyAvatar :size="44" />
+      <div class="">
+        <p class="flex">
+          <span>{{ $t('web.i18nFront.label.account') }}：</span>
+          <span class="color-#303442 font-400">
+            {{ userStore?.userInfo?.userName }}
+          </span>
+        </p>
+        <p class="flex">
+          <span>{{ $t('web.i18nFront.label.nickname2') }}：</span>
+          <span>{{ userStore?.userInfo?.nickName }}</span>
+          <van-tag v-if="userTypeTxt" class="ml-2" type="primary">
+            {{ userTypeTxt }}
+          </van-tag>
+        </p>
       </div>
     </div>
-    <div v-if="userStore.token" class="user-info mx-4 my-4 rounded-full p-3">
-      <div class="flex items-center gap-2">
-        <MyAvatar />
-        <div class="flex flex-col">
-          <p class="welcome text-base">
-            {{ $t('web.i18nFront.hint.hello') }},
-            {{ userStore?.userInfo?.userName }}
-          </p>
-          <div class="custom-btn flex-center">
-            <WalletAndCurrencySelector padding="0 4px 0 0" min-h="20px" :show-label="false" />
-            <span class="money ml-2 text-15px color-[var(--primary-color)]">{{ balance }}</span>
+    <div class="account-card mx-2 bg-white py-3">
+      <div class="flex items-center justify-between px-3">
+        <div class="text-sm">
+          <WalletAndCurrencySelector padding="0 4px 0 0" min-h="20px" :show-label="false" />
+        </div>
+        <div class="flex items-center gap-1">
+          <span class="text-12px color-#303442 font-600">{{ moneySymbol }} {{ balance }}</span>
+          <van-button icon="replay" :loading="refreshLoading" size="mini" circle @click="onRefresh" />
+          <div
+            class="h-6 w-6 flex-center cursor-pointer text-#5a0809"
+            :class="{ 'eye-icon-close': isHidden, 'eye-icon-open': !isHidden }" @click="isHidden = !isHidden"
+          >
+            <van-icon v-if="isHidden" name="closed-eye" />
+            <van-icon v-else name="eye-o" />
           </div>
         </div>
       </div>
-      <div class="flex items-center">
-        <van-button size="mini" icon="replay" :loading="refreshLoading" @click="onRefresh" />
-      </div>
-    </div>
-    <div v-else class="mt-4 px-4">
-      <div class="flex items-center">
-        <div class="kk-button text-12px" @click="onLogin">
-          {{ $t('system.i18nSystem.opration.login') }}
+      <div class="mt-3 flex items-center justify-between gap-2 px-2 text-sm text-white">
+        <div class="h-8 flex-center flex-1 cursor-pointer gap-1 bg-#e6ab4f" @click.prevent="openPayCenter('deposit')">
+          <img class="h-4 w-4" src="@/assets/images/new/recharge-icon.png" alt="">
+          <span>{{ $t("web.i18nFront.label.recharge") }}</span>
+        </div>
+        <div class="h-8 flex-center flex-1 cursor-pointer gap-1 bg-#a7ae43" @click.prevent="openPayCenter('withdraw')">
+          <img class="h-4 w-4" src="@/assets/images/new/withdraw-icon.png" alt="">
+          <span>{{ $t("web.i18nFront.label.withdraw") }}</span>
+        </div>
+        <div class="h-8 flex-center flex-1 cursor-pointer gap-1 bg-#ee6261" @click.prevent="goTransfor">
+          <img class="h-4 w-4" src="@/assets/images/new/exchange-icon.png" alt="">
+          <span>{{ $t("web.i18nFront.label.transfor") }}</span>
         </div>
       </div>
-      <p class="pb-5 pt-2 text-12px color-[var(--text-gray-color)]">
-        {{ $t('web.i18nFront.hint.loginFirst') }}
-      </p>
     </div>
-    <van-row>
+
+    <!-- <van-row>
       <van-col span="6">
         <TabItem
           :title="$t('web.i18nFront.label.recharge')" :show-rigth-line="false"
@@ -109,42 +133,18 @@ function openService() {
           <IconWallet />
         </tabitem>
       </van-col>
-    </van-row>
+    </van-row> -->
   </div>
 </template>
 
 <style lang="less" scoped>
-.header {
-  padding: 0;
-  padding-bottom: 16px;
-  box-sizing: border-box;
-  background: url(@/assets/images/bg/img_uc_bg.png) no-repeat right 0 / cover;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+.account-card {
+  box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.1);
 }
-
-.user-info {
-  background: #ffffffcc;
-  box-shadow: 0 0 4px 0 #00000012;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.eye-icon-close {
+  background: url('@/assets/images/new/eye-close-icon.png') no-repeat 50%;
 }
-
-html.dark .welcome {
-  color: #d3b694;
-}
-
-html.dark .user-info {
-  background: #302e38;
-  box-shadow: 0 0 4px 0 #00000017;
-}
-
-html.dark .icon-email {
-  background-color: #302e38;
-}
-
-html.dark .header {
-  background: url(@/assets/images/bg/img_uc_bg2.png) no-repeat right 0 / cover;
+.eye-icon-open {
+  background: url('@/assets/images/new/eye-icon.png') no-repeat 50%;
 }
 </style>

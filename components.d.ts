@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     BarChart: typeof import('./src/components/BarChart/index.vue')['default']
     BillItem: typeof import('./src/components/BillItem/index.vue')['default']
+    CommonHeader: typeof import('./src/components/CommonHeader/index.vue')['default']
     CommonHits: typeof import('./src/04-kk-component-mobile/CommonHits/index.vue')['default']
     Container: typeof import('./src/components/Container/index.vue')['default']
     ContractItem: typeof import('./src/components/ContractItem/index.vue')['default']
@@ -41,6 +42,7 @@ declare module 'vue' {
     LotteryDetail: typeof import('./src/04-kk-component-mobile/LotteryDetail/index.vue')['default']
     LotteryReportCell: typeof import('./src/components/LotteryReportCell/index.vue')['default']
     MoneySwitchThird: typeof import('./src/04-kk-component-mobile/MoneySwitchThird/index.vue')['default']
+    NoticeDialog: typeof import('./src/components/NoticeDialog/index.vue')['default']
     PwaModal: typeof import('./src/04-kk-component-mobile/PwaModal/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -54,6 +56,8 @@ declare module 'vue' {
     VanCellGroup: typeof import('vant/es')['CellGroup']
     VanCheckbox: typeof import('vant/es')['Checkbox']
     VanCol: typeof import('vant/es')['Col']
+    VanCollapse: typeof import('vant/es')['Collapse']
+    VanCollapseItem: typeof import('vant/es')['CollapseItem']
     VanConfigProvider: typeof import('vant/es')['ConfigProvider']
     VanDialog: typeof import('vant/es')['Dialog']
     VanDivider: typeof import('vant/es')['Divider']
@@ -82,6 +86,7 @@ declare module 'vue' {
     VanTabbar: typeof import('vant/es')['Tabbar']
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
     VanTabs: typeof import('vant/es')['Tabs']
+    VanTag: typeof import('vant/es')['Tag']
     WalletAndCurrencySelector: typeof import('./src/04-kk-component-mobile/WalletAndCurrencySelector/index.vue')['default']
     WalletAndCurrencySelector2: typeof import('./src/04-kk-component-mobile/WalletAndCurrencySelector2/index.vue')['default']
   }

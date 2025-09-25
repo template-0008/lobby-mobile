@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import IconHistory from '@/components/Icons/IconHistory/index.vue'
-import IconHome from '@/components/Icons/IconHome/index.vue'
-import IconChat from '@/components/Icons/IconChat/index.vue'
-import IconMine from '@/components/Icons/IconMine/index.vue'
 import type { IObject } from '@/01-kk-system/allHttp/types/common'
 import { useChatStore } from '@/store/modules/chat'
+import { localImg } from '@/01-kk-system/allUtils/utils'
 
 defineOptions({
   name: 'KKTabbar',
@@ -14,42 +11,39 @@ defineProps({
   activeName: String,
 })
 
+const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const chatStore = useChatStore()
 const active = ref('home')
-// const topBorderRef = ref()
-// const { width } = useElementSize(topBorderRef)
 
 const Tabbars = [
   {
-    label: '首页',
-    icon: IconHome,
+    label: t('web.i18nFront.title.home'),
+    icon: localImg('images/new/home-icon.png'),
+    iconActive: localImg('images/new/home-icon-a.png'),
     name: 'home',
     path: '/home',
   },
   {
-    label: '优惠',
-    icon: IconHistory,
-    name: 'activity',
-    path: '/activity',
+    label: t('web.i18nFront.label.lotteryLobby'),
+    icon: localImg('images/new/lobby-icon.png'),
+    iconActive: localImg('images/new/lobby-icon-a.png'),
+    name: 'gameLobby',
+    path: '/game-lobby',
   },
   {
-    label: '客服',
-    icon: IconChat,
-    name: 'chat',
-  },
-  // {
-  //   label: '体育',
-  //   icon: IconSports,
-  //   name: 'sport',
-  //   path: '/recharge',
-  // },
-  {
-    label: '我的',
-    icon: IconMine,
+    label: t('web.i18nFront.label.accountM'),
+    icon: localImg('images/new/account-icon.png'),
+    iconActive: localImg('images/new/account-icon-a.png'),
     name: 'mine',
     path: '/mine',
+  },
+  {
+    label: t('web.i18nFront.label.server'),
+    icon: localImg('images/new/custom-server.png'),
+    iconActive: localImg('images/new/custom-server.png'),
+    name: 'chat',
   },
 ]
 
@@ -88,11 +82,8 @@ function switchTab(target: IObject) {
     <van-tabbar-item v-for="(tabbar, i) in Tabbars" :key="i" :name="tabbar.name">
       <span>{{ tabbar.label }}</span>
       <template #icon="props">
-        <component
-          :is="tabbar.icon"
-          :key="tabbar.name"
-          :active="props.active"
-        />
+        <img v-if="props.active" :src="tabbar.iconActive">
+        <img v-else :src="tabbar.icon">
       </template>
     </van-tabbar-item>
   </van-tabbar>
@@ -103,7 +94,7 @@ function switchTab(target: IObject) {
   --van-tabbar-background: #fafafa;
   --van-tabbar-item-active-background: #fafafa;
   --van-tabbar-item-text-color: #000000;
-  --van-tabbar-item-active-color: #597ef7;
+  --van-tabbar-item-active-color: #ec735e;
 }
 
 .tabbar-container {

@@ -15,15 +15,15 @@ defineProps({
 </script>
 
 <template>
-  <div class="flex items-center gap-3 py-3 text-sm" :class="{ 'border-bottom': showBottomLine }">
+  <div class="h-11 flex items-center gap-3 bg-white px-4 text-sm" :class="{ 'border-bottom': showBottomLine }">
     <div class="flex items-center">
       <img v-if="icon" class="w-5 object-contain" :src="icon" alt="">
       <slot name="left" />
-      <span class="pl-3">{{ title }}</span>
+      <span class="pl-3 color-#590809 font-600">{{ title }}</span>
     </div>
     <div class="flex flex-1 items-center justify-end">
       <slot name="right">
-        <van-icon name="arrow" />
+        <van-icon color="#969799" name="arrow" />
       </slot>
     </div>
   </div>

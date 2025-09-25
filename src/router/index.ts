@@ -48,6 +48,38 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: 'activity',
+        component: () => import('@/pages/activity/index.vue'),
+        name: 'Activity',
+        meta: {
+          title: 'web.i18nFront.label.mine',
+          keepAlive: true,
+          showTabbar: true,
+          alwaysShow: false,
+        },
+      },
+      {
+        path: '/game-lobby',
+        name: 'GameLobbyPage',
+        component: () => import('@/pages/gameLobby/index.vue'),
+        meta: {
+          title: 'web.i18nFront.label.lotteryLobby',
+          keepAlive: true,
+          showTabbar: true,
+          alwaysShow: false,
+        },
+      },
+      {
+        path: '/game-edit',
+        name: 'GameEditPage',
+        component: () => import('@/pages/gameEdit/index.vue'),
+        meta: {
+          title: 'web.i18nFront.label.gameEdit',
+          keepAlive: true,
+          alwaysShow: false,
+        },
+      },
+      {
         path: 'recharge',
         component: () => import('@/pages/recharge/index.vue'),
         name: 'Recharge',
@@ -232,11 +264,6 @@ const routes: RouteRecordRaw[] = [
     path: '/team-manage-sign/:userId',
     name: 'TeamManageSign',
     component: () => import('@/pages/teamManageSign/index.vue'),
-  },
-  {
-    path: '/game-lobby',
-    name: 'GameLobbyPage',
-    component: () => import('@/pages/gameLobby/index.vue'),
   },
   {
     path: '/subgame-lobby',

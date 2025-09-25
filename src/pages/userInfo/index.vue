@@ -14,7 +14,6 @@ defineOptions({
   name: 'UserInfo',
 })
 
-const router = useRouter()
 const userStore = useUserStore()
 const { t } = useI18n()
 
@@ -79,12 +78,8 @@ onBeforeMount(() => {
 
 <template>
   <div class="h-full flex flex-col overflow-hidden">
-    <van-nav-bar
-      :title="$t('web.i18nFront.label.myPofile')"
-      left-arrow
-      @click-left="router.back"
-    />
-    <div class="flex-1 overflow-auto">
+    <TopNav :title="$t('web.i18nFront.label.myPofile')" />
+    <div class="flex-1 overflow-auto pb-10">
       <div class="card bg-[var(--card-bg-color)]">
         <div class="basic-info-item">
           <span> {{ `${$t("web.i18nFront.label.account")}：` }}</span>

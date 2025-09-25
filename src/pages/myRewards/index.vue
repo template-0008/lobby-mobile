@@ -53,23 +53,23 @@ onBeforeMount(() => {
   <div class="h-screen flex flex-col">
     <TopNav :title="$t('web.i18nFront.label.myRewards')" />
     <div class="mx-3 flex-1 overflow-auto">
-      <template v-if="list && list.length > 0">
-        <van-pull-refresh v-model="refreshing" class="h-full !overflow-y-scroll" @refresh="onRefresh">
-          <van-list
-            v-model:loading="loading"
-            :finished="true"
-            @load="onLoad"
-          >
+      <van-pull-refresh v-model="refreshing" class="h-full !overflow-y-scroll" @refresh="onRefresh">
+        <van-list
+          v-model:loading="loading"
+          :finished="true"
+          @load="onLoad"
+        >
+          <template v-if="list && list.length > 0">
             <ContractItem v-for="(data, i) in list" :key="i" :item-data="data" />
             <div class="h-10" />
-          </van-list>
-        </van-pull-refresh>
-      </template>
-      <template v-else>
-        <div class="h-full flex flex-col justify-center">
-          <van-empty image-size="100" :description="$t('web.i18nFront.hint.noData')" />
-        </div>
-      </template>
+          </template>
+          <template v-else>
+            <div class="h-full flex flex-col justify-center">
+              <van-empty image-size="100" :description="$t('web.i18nFront.hint.noData')" />
+            </div>
+          </template>
+        </van-list>
+      </van-pull-refresh>
     </div>
   </div>
 </template>

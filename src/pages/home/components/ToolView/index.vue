@@ -29,30 +29,6 @@ const moneySymbol = computed(() => {
 })
 
 async function openPayCenter(type: 'deposit' | 'withdraw') {
-  // if (!userStore.token) {
-  //   userStore.showLogin = true
-  //   return
-  // }
-  // const toast = showLoadingToast({
-  //   message: `${t('web.i18nFront.hint.loading')}...`,
-  //   duration: 0,
-  //   forbidClick: true,
-  // })
-  // const hasPwd = await userStore.checkFundPwdExist()
-  // toast.close()
-  // if (!hasPwd) {
-  //   showConfirmDialog({
-  //     title: t('system.i18nSystem.label.hint'),
-  //     message: t('web.i18nFront.hint.confirmFundPwd'),
-  //     confirmButtonText: t('web.i18nFront.operation.goSet'),
-  //     cancelButtonText: t('web.i18nFront.operation.cancel'),
-  //   })
-  //     .then(() => {
-  //       router.push({ path: '/userInfo' })
-  //     })
-  //     .catch(() => {})
-  //   return
-  // }
   goToPayment(type)
 }
 
