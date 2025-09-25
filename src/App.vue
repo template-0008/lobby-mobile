@@ -85,11 +85,23 @@ const currRoute = useRoute()
 const showTabbar = computed(() => currRoute.meta.showTabbar)
 const showNotice = ref(false)
 
-function handlePopState() {
-  const localState = sessionStorage.getItem('noticeState')
-  if (!localState) {
-    showNotice.value = true
+watch(() => userStore.userInfo?.userID, (newVal) => {
+  if (newVal) {
+    handlePopState()
   }
+})
+
+let timer: NodeJS.Timeout | null = null
+function handlePopState() {
+  if (timer) {
+    clearTimeout(timer)
+  }
+  timer = setTimeout(() => {
+    const localState = sessionStorage.getItem('noticeState')
+    if (!localState && userStore.userInfo?.userID) {
+      showNotice.value = true
+    }
+  }, 2000)
 }
 
 function handleConfirm() {
