@@ -38,5 +38,6 @@ export function usePlatformNotice() {
     noticeList,
     onClickNotice,
     currentNotice,
+    getNoticeList,
   }
 }

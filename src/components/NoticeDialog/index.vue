@@ -10,11 +10,11 @@ defineOptions({
 // const showModel = defineModel<boolean>('show')
 
 const swipeRef = ref<SwipeInstance>()
-const { noticeList } = usePlatformNotice()
+const { noticeList, getNoticeList } = usePlatformNotice()
 </script>
 
 <template>
-  <van-dialog v-bind="$attrs" teleport="body" width="80%">
+  <van-dialog v-bind="$attrs" teleport="body" width="80%" @open="getNoticeList">
     <div class="relative h-[70vh]">
       <div class="bg-#5a0809 py-2 text-center text-16px text-#fff font-bold">
         {{ $t('web.i18nFront.label.noticeTitle') }}
