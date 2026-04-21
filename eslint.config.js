@@ -54,6 +54,10 @@ export default antfu({
 
   rules: {
     'no-console': 'off',
+    'import/order': 'off',
+    'style/indent': 'off',
+    'style/semi': 'off',
+    'ts/consistent-type-definitions': 'off',
     'prefer-promise-reject-errors': ['error', {
       allowEmptyReject: true,
     }],
