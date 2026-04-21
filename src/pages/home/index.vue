@@ -384,9 +384,11 @@ html.dark .tab-body {
 }
 
 .left-menu-card.menuactive {
-  color: #ffffff;
+  // color: #ffffff;
+  color: #ec735e;
   animation: menuactiveani 0.3s ease;
-  background-image: url(@/assets/images/home/active-tab-bg.png);
+  // background-image: url(@/assets/images/home/active-tab-bg.png);
+  background: #ede9ec;
 }
 
 @keyframes menuactiveani {
