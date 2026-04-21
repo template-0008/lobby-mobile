@@ -30,7 +30,7 @@ defineOptions({
 
 <template>
   <!-- <div class="h-full flex flex-col"> -->
-  <div class="flex-1 overflow-hidden bg-#eef2fe">
+  <div class="flex-1 overflow-hidden bg-#eef2fe bak-image">
     <router-view v-slot="{ Component, route }">
       <transition name="zoom-fade" mode="out-in" appear>
         <component :is="Component" :key="route.name" />
@@ -45,4 +45,8 @@ defineOptions({
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.bak-image {
+  background-image: url('@/assets/images/bg/bg_hy.png');
+}
+</style>

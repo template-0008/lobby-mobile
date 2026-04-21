@@ -69,6 +69,7 @@
     "postcss": "^8.4.39",
     "postcss-mobile-forever": "^4.1.4",
     "rollup": "^4.18.0",
+    "sass": "^1.99.0",
     "terser": "^5.31.1",
     "typescript": "^5.5.2",
     "unocss": "0.61.0",
