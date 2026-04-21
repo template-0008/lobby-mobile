@@ -17,6 +17,9 @@ declare module 'swiper/vue' {
 declare global {
   interface Window {
     isSimulatedClick: boolean
+    Tawk_API: any
+    Tawk_LoadStart: any
+    jivo_api: any
   }
 }
 

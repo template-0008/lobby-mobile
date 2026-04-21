@@ -8,9 +8,9 @@ defineOptions({
 })
 
 interface RuleForm {
-  bonusGroupOffi: number
-  bonusGroupSelf: number
-  bonusGroupThird: number
+  bonusGroupOffi: string
+  bonusGroupSelf: string
+  bonusGroupThird: string
   loginPassword: string
   nickName: string
   userName: string
@@ -25,9 +25,9 @@ const bonusGroupSelf = computed(() => userStore.userInfo.bonusGroupSelf)
 const bonusGroupThird = computed(() => userStore.userInfo.bonusGroupThird)
 
 const openForm = ref<RuleForm>({
-  bonusGroupOffi: Number(bonusGroupOffi.value || 0),
-  bonusGroupSelf: Number(bonusGroupSelf.value || 0),
-  bonusGroupThird: Number(bonusGroupThird.value || 0),
+  bonusGroupOffi: bonusGroupOffi.value || '0',
+  bonusGroupSelf: bonusGroupSelf.value || '0',
+  bonusGroupThird: bonusGroupThird.value || '0',
   loginPassword: '',
   nickName: '',
   userName: '',
@@ -37,9 +37,9 @@ const loading = ref(false)
 
 function resetForm() {
   openForm.value = {
-    bonusGroupOffi: Number(bonusGroupOffi.value || 0),
-    bonusGroupSelf: Number(bonusGroupSelf.value || 0),
-    bonusGroupThird: Number(bonusGroupThird.value || 0),
+    bonusGroupOffi: bonusGroupOffi.value || '0',
+    bonusGroupSelf: bonusGroupSelf.value || '0',
+    bonusGroupThird: bonusGroupThird.value || '0',
     loginPassword: '',
     nickName: '',
     userName: '',

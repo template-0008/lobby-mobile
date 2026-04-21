@@ -47,8 +47,8 @@ async function fetchTeamUserList(superiorID: string) {
   })
   const params = {
     superiorID,
-    current: pagination.value.currentPage,
-    size: pagination.value.pageSize,
+    current: pagination.value.currentPage.toString(),
+    size: pagination.value.pageSize.toString(),
   }
   loading.value = true
   const res = await teamHttp.teamUserPage(params).catch(() => null)

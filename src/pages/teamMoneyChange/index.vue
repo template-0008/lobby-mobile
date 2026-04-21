@@ -62,8 +62,8 @@ async function fetchList() {
   const params = {
     walletType,
     currencyCode,
-    current: pagination.value.currentPage,
-    size: pagination.value.pageSize,
+    current: pagination.value.currentPage.toString(),
+    size: pagination.value.pageSize.toString(),
     operateTimeFromFrom: dateFrom,
     operateTimeFromTo: dateTo,
     businessCode: businessCode.value === '0' ? null : businessCode.value,

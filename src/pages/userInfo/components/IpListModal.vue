@@ -13,7 +13,7 @@ const loading = ref(false)
 
 async function fetchData() {
   loading.value = true
-  const res = await userHttp.ipList({ limit: 10 })
+  const res = await userHttp.ipList({ limit: '10' })
   const { data } = res ?? {}
   list.value = data ?? []
   loading.value = false

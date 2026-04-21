@@ -88,14 +88,14 @@ onBeforeMount(() => {
 const refreshing = ref(false)
 const loading = ref(false)
 const finished = ref(true)
-const pageSize = 20
-let currentPage = 1
+const pageSize = '20'
+let currentPage = '1'
 
 async function onRefresh() {
   if (loading.value) {
     return false
   }
-  currentPage = 1
+  currentPage = '1'
   refreshing.value = true
   await onLoad()
 }
@@ -105,7 +105,7 @@ function onSearch() {
   if (!searchValue.value) {
     return false
   }
-  currentPage = 1
+  currentPage = '1'
   onSearchGame()
 }
 
@@ -128,7 +128,7 @@ async function onSearchGame() {
       outerGamerID,
       contentCategory,
       current: currentPage,
-      size: 100,
+      size: '100',
     }
     const finalParams = searchValue.value ? { ...params, subgameDes: searchValue.value } : params
     const { code, data } = await outerGameHttp.fetchSubGamePage(finalParams)
@@ -162,8 +162,8 @@ async function onLoad() {
     const { code, data } = await outerGameHttp.fetchSubGamePage(params)
     if (code === '0') {
       const { recordList, pages, current } = data || {}
-      if (current < +pages) {
-        currentPage++
+      if (Number(current) < +pages) {
+        currentPage = (Number(currentPage) + 1).toString()
         finished.value = false
       }
       else {

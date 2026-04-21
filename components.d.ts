@@ -9,7 +9,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     BarChart: typeof import('./src/components/BarChart/index.vue')['default']
     BillItem: typeof import('./src/components/BillItem/index.vue')['default']
-    CommonHeader: typeof import('./src/components/CommonHeader/index.vue')['default']
     CommonHits: typeof import('./src/04-kk-component-mobile/CommonHits/index.vue')['default']
     Container: typeof import('./src/components/Container/index.vue')['default']
     ContractItem: typeof import('./src/components/ContractItem/index.vue')['default']
@@ -47,6 +46,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SafeRichText: typeof import('./src/04-kk-component-mobile/SafeRichText/index.vue')['default']
+    SandboxHtmlFrame: typeof import('./src/04-kk-component-mobile/SandboxHtmlFrame/index.vue')['default']
     SvgIcon: typeof import('./src/04-kk-component-mobile/SvgIcon/index.vue')['default']
     ThemeSwitch: typeof import('./src/components/ThemeSwitch/index.vue')['default']
     TopNav: typeof import('./src/components/TopNav/index.vue')['default']
@@ -70,7 +70,6 @@ declare module 'vue' {
     VanLoading: typeof import('vant/es')['Loading']
     VanNavBar: typeof import('vant/es')['NavBar']
     VanNoticeBar: typeof import('vant/es')['NoticeBar']
-    VanNumberKeyboard: typeof import('vant/es')['NumberKeyboard']
     VanPagination: typeof import('vant/es')['Pagination']
     VanPicker: typeof import('vant/es')['Picker']
     VanPopup: typeof import('vant/es')['Popup']

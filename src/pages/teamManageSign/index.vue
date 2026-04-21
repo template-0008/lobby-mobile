@@ -73,7 +73,7 @@ async function getMyContract() {
     forbidClick: true,
   })
   myContract = []
-  const res = await contractHttp.getMyContractList({ canSubSign: 1 }).catch(() => null)
+  const res = await contractHttp.getMyContractList({ canSubSign: '1' }).catch(() => null)
   if (res?.code === '0') {
     const list = res.data || []
     list.forEach((item, i) => {

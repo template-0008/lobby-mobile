@@ -63,8 +63,8 @@ async function fetchList() {
   const params = {
     walletType,
     currencyCode,
-    current: pagination.value.currentPage,
-    size: pagination.value.pageSize,
+    current: pagination.value.currentPage.toString(),
+    size: pagination.value.pageSize.toString(),
     betTimeFrom: dateFrom,
     betTimeTo: dateTo,
     lottoOwnerShip,

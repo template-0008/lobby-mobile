@@ -124,7 +124,7 @@ export const useGameStore = defineStore('game', () => {
         lobbyCode: info.lobbyCode,
         outerGamerAgentCode: info.outerGamerAgentCode,
         outerGamerID: info.outerGamerID,
-        sourceType: 3,
+        sourceType: '3',
       }
       outerGameHttp
         .login(params)
@@ -154,7 +154,7 @@ export const useGameStore = defineStore('game', () => {
         subgameCode: info.subgameCode,
         outerGamerAgentCode: info.outerGamerAgentCode,
         outerGamerID: info.outerGamerID,
-        sourceType: 2,
+        sourceType: '2',
       }
       outerGameHttp
         .loginSubGame(params)
