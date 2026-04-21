@@ -200,7 +200,7 @@ async function onLoad() {
     <van-tabs v-model:active="activeName">
       <van-tab class="h-full" title="全部" name="all">
         <div id="list-body-id" class="list-body h-full overflow-hidden overflow-y-scroll">
-          <van-pull-refresh v-model="refreshing" class="h-full !overflow-y-scroll" @refresh="onRefresh">
+          <van-pull-refresh v-model="refreshing" class="h-full overflow-y-scroll!" @refresh="onRefresh">
             <van-list
               v-model:loading="loading"
               :finished="finished"

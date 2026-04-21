@@ -135,7 +135,7 @@ onMounted(() => {
 <template>
   <VanConfigProvider :theme="getDarkMode" class="h-full">
     <van-nav-bar style="--van-nav-bar-height:0" safe-area-inset-top />
-    <div class="box-border h-full max-w-600px w-full w-screen flex flex-col justify-start overflow-hidden">
+    <div class="box-border h-full max-w-600px w-screen flex flex-col justify-start overflow-hidden">
       <router-view v-slot="{ Component, route }" class="flex-1">
         <keep-alive :include="keepAliveRouteNames">
           <component :is="Component" :key="route.name" />

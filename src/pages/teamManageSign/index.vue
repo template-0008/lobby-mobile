@@ -168,11 +168,11 @@ onBeforeMount(() => {
 <template>
   <Container :title="$t('web.i18nFront.label.teamSign')">
     <div class="h-full flex flex-col">
-      <div class="h-11 flex items-center bg-[var(--card-bg-color)] px-4 text-sm color-[var(--text-gray-color)]">
+      <div class="bg---card-bg-color h-11 flex items-center px-4 text-sm color-[var(--text-gray-color)]">
         <span>{{ $t('web.i18nFront.label.subAccount') }}:</span><span>{{ subUserInfo.nickName }}</span>
       </div>
       <div class="flex-1 overflow-auto px-3">
-        <van-pull-refresh v-model="refreshing" class="h-full !overflow-y-scroll" @refresh="onRefresh">
+        <van-pull-refresh v-model="refreshing" class="h-full overflow-y-scroll!" @refresh="onRefresh">
           <van-list
             v-model:loading="loading"
             :finished="true"

@@ -122,7 +122,7 @@ onBeforeMount(() => {
         <CustomBreadcrumb v-model="breadcrumbUsers" @on-click="onClickCrumb" />
       </div>
       <div class="flex-1 overflow-auto">
-        <van-pull-refresh v-model="refreshing" class="h-full !overflow-y-scroll" @refresh="onRefresh">
+        <van-pull-refresh v-model="refreshing" class="h-full overflow-y-scroll!" @refresh="onRefresh">
           <van-list
             v-model:loading="loading"
             :finished="true"

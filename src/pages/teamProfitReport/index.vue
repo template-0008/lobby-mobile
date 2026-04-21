@@ -137,7 +137,7 @@ onBeforeMount(() => {
       <CommonHits class="mx-3" />
       <CustomBreadcrumb v-model="breadcrumbUsers" :show-filter="true" @on-filter="showSearch = !showSearch" @on-click="onClickCrumb" />
       <div class="mx-3 flex-1 overflow-auto">
-        <van-pull-refresh v-model="refreshing" class="h-full !overflow-y-scroll" @refresh="onRefresh">
+        <van-pull-refresh v-model="refreshing" class="h-full overflow-y-scroll!" @refresh="onRefresh">
           <van-list
             v-model:loading="loading"
             :finished="true"

@@ -115,7 +115,7 @@ onBeforeMount(() => {
         </div>
       </div>
       <div class="mx-3 flex-1 overflow-auto">
-        <van-pull-refresh v-model="refreshing" class="h-full !overflow-y-scroll" @refresh="onRefresh">
+        <van-pull-refresh v-model="refreshing" class="h-full overflow-y-scroll!" @refresh="onRefresh">
           <van-list
             v-model:loading="loading"
             :finished="true"

@@ -80,7 +80,7 @@ onBeforeMount(() => {
 
 <template>
   <div class="">
-    <van-pull-refresh v-model="refreshing" class="h-full !overflow-y-scroll" @refresh="onRefresh">
+    <van-pull-refresh v-model="refreshing" class="h-full overflow-y-scroll!" @refresh="onRefresh">
       <van-list
         v-model:loading="loading"
         :finished="true"
@@ -98,7 +98,7 @@ onBeforeMount(() => {
     </van-pull-refresh>
   </div>
   <van-dialog v-model:show="showQr" theme="round-button">
-    <div class="mx-auto mb-5 mt-10 h-200px w-200px flex-center border-1 border-white rounded-2 bg-[#eef2fe] p-4">
+    <div class="mx-auto mb-5 mt-10 h-200px w-200px flex-center border border-white rounded-2 bg-[#eef2fe] p-4">
       <!-- @vue-ignore -->
       <img class="h-160px w-160px" :src="qrcode" alt="APP QR Code">
     </div>

@@ -102,7 +102,7 @@ function validateAboradLott(val: string) {
     <h3 class="mx-4 my-4 text-left text-sm">
       {{ $t("web.i18nFront.label.baseSet") }}
     </h3>
-    <van-cell-group inset class="border border-[var(--card-bg-color)] border-solid">
+    <van-cell-group inset class="border---card-bg-color border border-(solid)">
       <van-field
         v-model="openForm.userName"
         name="userName"
@@ -136,7 +136,7 @@ function validateAboradLott(val: string) {
     <h3 class="mx-4 my-4 text-left text-sm">
       {{ $t("web.i18nFront.label.rebateSet") }}
     </h3>
-    <van-cell-group inset class="border border-[var(--card-bg-color)] border-solid">
+    <van-cell-group inset class="border---card-bg-color border border-(solid)">
       <van-field
         v-model.number="openForm.bonusGroupOffi"
         name="bonusGroupOffi"
